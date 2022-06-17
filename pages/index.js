@@ -33,7 +33,7 @@ export default function Home({ sheds }) {
                 <Map center={center} zoom={zoom} sheds={sheds} selectedCategory={selectedCategory} />
             </Wrapper>
 
-            <div className="fixed -top-14 right-0 w-full max-w-md px-1 py-16 sm:px-0">
+            <div className="fixed -top-14 right-0 w-full max-w-md px-1 py-16">
                 <Tab.Group
                     onChange={(index) => {
                         setSelectedCategory(index)

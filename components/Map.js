@@ -16,6 +16,7 @@ export default function Map({ center, zoom, sheds, selectedCategory  }) {
         console.log(sheds)
         const minCapacity = 200;
         sheds.forEach((shed) => {
+            console.log(shed.latitude)
             if (
                 (shed.p92Capacity > minCapacity && selectedCategory === 0) ||
                 (shed.p95Capacity > minCapacity && selectedCategory === 1) ||
