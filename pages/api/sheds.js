@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     } else {
         // const urls = [...Array(500)].map((_, index) => `https://fuel.gov.lk/api/v1/sheddetails/${index + 1}/d`);
 
-        for (let i = 0; i < 800; i++) {
+        for (let i = 0; i < 400; i++) {
             let response = fetch(`https://fuel.gov.lk/api/v1/sheddetails/${i + 1}/d`, {
                 headers: {
                     'Connection': 'keep-alive'
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
             //     console.log(results)
             //     sheds = results
             // })
-        // fs.writeFileSync(fileName, JSON.stringify(sheds))
+        fs.writeFileSync(fileName, JSON.stringify(sheds))
     }
 
     res.status(200).json(sheds)
