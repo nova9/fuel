@@ -64,20 +64,10 @@ export default function Home({ sheds }) {
 }
 
 export async function getServerSideProps() {
-    const dev = false
+    const dev = true
     const server = dev ? 'http://localhost:3000' : 'https://fuel-git-main-nova9.vercel.app'
-    const response400 = await fetch(`${server}/api/sheds400`)
-    const sheds400 = await response400.json()
+    const response = await fetch(`${server}/api/sheds`)
+    const sheds = await response.json()
 
-    const response800 = await fetch(`${server}/api/sheds800`)
-    const sheds800 = await response800.json()
-
-    const response1200 = await fetch(`${server}/api/sheds1200`)
-    const sheds1200 = await response1200.json()
-
-    const response1344 = await fetch(`${server}/api/sheds1344`)
-    const sheds1344 = await response1344.json()
-
-    const sheds = sheds400.concat(sheds800, sheds1200, sheds1344)
     return { props: { sheds } }
 }
