@@ -64,8 +64,8 @@ export default function Home({ sheds }) {
                     </Tab.List>
                 </Tab.Group>
                 <div className="mt-1 flex items-center cursor-default overflow-hidden text-sm rounded-lg bg-blue-900/20 text-left shadow-md">
-                    <span className="shrink-0 text-white text-xs mx-2 font-medium">
-                        Min. available {categories[selectedCategory]} liters in a shed
+                    <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
+                        Show sheds with at least
                     </span>
                     <input
                         value={minOil}
@@ -77,7 +77,11 @@ export default function Home({ sheds }) {
                                 }
                             }
                         }}
-                        className="text-blue-700 w-full border-none py-2 pl-3 pr-10 text-sm leading-5 focus:ring-0" />
+                        className="text-blue-700 w-full border-none py-2 pl-3 pr-10 text-sm leading-5 focus:ring-0"
+                    />
+                    <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
+                        liters of {categories[selectedCategory]}
+                    </span>
                 </div>
             </div>
 
