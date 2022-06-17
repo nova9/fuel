@@ -47,7 +47,7 @@ export default async function handler(req, res) {
             //     console.log(results)
             //     sheds = results
             // })
-        fs.writeFileSync(fileName, JSON.stringify(sheds))
+        // fs.writeFileSync(fileName, JSON.stringify(sheds))
     }
 
     res.status(200).json(sheds)
