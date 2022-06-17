@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-export default function Map({ center, zoom, sheds, selectedCategory  }) {
+export default function Map({ center, zoom, sheds, selectedCategory, minOil }) {
     const ref = useRef();
 
     useEffect(() => {
@@ -14,15 +14,13 @@ export default function Map({ center, zoom, sheds, selectedCategory  }) {
         });
 
         console.log(sheds)
-        const minCapacity = 200;
         sheds.forEach((shed) => {
-            console.log(shed.latitude)
             if (
-                (shed.p92Capacity > minCapacity && selectedCategory === 0) ||
-                (shed.p95Capacity > minCapacity && selectedCategory === 1) ||
-                (shed.dcapacity > minCapacity && selectedCategory === 2) ||
-                (shed.sdcapacity > minCapacity && selectedCategory === 3) ||
-                (shed.kcapacity > minCapacity && selectedCategory === 4)
+                (shed.p92Capacity > minOil && selectedCategory === 0) ||
+                (shed.p95Capacity > minOil && selectedCategory === 1) ||
+                (shed.dcapacity > minOil && selectedCategory === 2) ||
+                (shed.sdcapacity > minOil && selectedCategory === 3) ||
+                (shed.kcapacity > minOil && selectedCategory === 4)
             ) {
                 const shedCircle = new window.google.maps.Circle({
                     strokeColor: shed.shedownerupdatetoday ? '#198754' : '#fd7e14',
