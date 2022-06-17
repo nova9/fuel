@@ -64,7 +64,9 @@ export default function Home({ sheds }) {
 }
 
 export async function getServerSideProps() {
-    const response = await fetch('https://fuel-4qabjkn7x-nova9.vercel.app/api/sheds')
+    const dev = false;
+    const server = dev ? 'http://localhost:3000' : 'https://fuel-git-main-nova9.vercel.app';
+    const response = await fetch(`${server}/api/sheds`)
     const sheds = await response.json()
 
     return { props: { sheds } }

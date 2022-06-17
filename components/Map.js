@@ -10,10 +10,11 @@ export default function Map({ center, zoom, sheds, selectedCategory  }) {
             mapTypeControl: false,
             fullscreenControl: false,
             streetViewControl: false,
+            gestureHandling: 'greedy'
         });
 
         console.log(sheds)
-        const minCapacity = 500;
+        const minCapacity = 200;
         sheds.forEach((shed) => {
             if (
                 (shed.p92Capacity > minCapacity && selectedCategory === 0) ||
@@ -23,10 +24,10 @@ export default function Map({ center, zoom, sheds, selectedCategory  }) {
                 (shed.kcapacity > minCapacity && selectedCategory === 4)
             ) {
                 const shedCircle = new window.google.maps.Circle({
-                    strokeColor: '#198754',
+                    strokeColor: shed.shedownerupdatetoday ? '#198754' : '#fd7e14',
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
-                    fillColor: '#198754',
+                    fillColor: shed.shedownerupdatetoday ? '#198754' : '#fd7e14',
                     fillOpacity: 0.25,
                     map,
                     center: { lat: parseFloat(shed.longitude), lng: parseFloat(shed.latitude) },
@@ -38,25 +39,29 @@ export default function Map({ center, zoom, sheds, selectedCategory  }) {
                 });
 
                 map.addListener('zoom_changed', () => {
-                    console.log(map.getZoom())
+                    // console.log(map.getZoom())
                     if (map.getZoom() === 12) {
                         shedCircle.setRadius(200)
                     } else if (map.getZoom() === 11) {
                         shedCircle.setRadius(1000)
-                    } else if (map.getZoom() === 16) {
+                    } else if (map.getZoom() === 17) {
                         shedCircle.setRadius(50)
-                    } else if (map.getZoom() === 15) {
+                    } else if (map.getZoom() === 16) {
                         shedCircle.setRadius(200)
+                    } else if (map.getZoom() === 19) {
+                        shedCircle.setRadius(10)
+                    } else if (map.getZoom() === 18) {
+                        shedCircle.setRadius(50)
                     }
                 });
 
-                const contentString = '<div>Hello</div>';
-                const infowindow = new window.google.maps.InfoWindow({
+                const contentString = `<div class="text-red-500">${shed.lastupdateddate} Petrol 92 - ${shed.p92Capacity}</div>`;
+                const infoWindow = new window.google.maps.InfoWindow({
                     content: contentString,
                     position: { lat: parseFloat(shed.longitude), lng: parseFloat(shed.latitude) }
                 });
                 shedCircle.addListener("click", () => {
-                    infowindow.open({
+                    infoWindow.open({
                         map,
                         shouldFocus: true,
                     });

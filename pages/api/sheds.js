@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     } else {
         const urls = [...Array(500)].map((_, index) => `https://fuel.gov.lk/api/v1/sheddetails/${index + 1}/d`);
 
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 1344; i++) {
             let response;
             try {
                 response = await fetch(`https://fuel.gov.lk/api/v1/sheddetails/${i + 1}/d`, {
@@ -28,9 +28,15 @@ export default async function handler(req, res) {
                     }
                 })
             }
-            const result = await response.json()
-            sheds.push(result)
-            console.log(i)
+
+            try {
+                const result = await response.json()
+                sheds.push(result)
+                console.log(i)
+
+            } catch (error) {
+                continue
+            }
         }
         fs.writeFileSync(fileName, JSON.stringify(sheds))
     }
