@@ -3,6 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Map from '../components/Map';
 import { Tab } from '@headlessui/react'
 import { useState } from 'react';
+import { Switch } from '@headlessui/react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -12,6 +13,7 @@ export default function Home({ sheds }) {
     const [categories] = useState(['Octane 92', 'Octane 95', 'Diesel', 'Super Diesel', 'Kerosene'])
     const [selectedCategory, setSelectedCategory] = useState(0)
     const [minOil, setMinOil] = useState(200)
+    const [includeYesterday, setIncludeYesterday] = useState(true)
 
     const center = { lat: 7.867373, lng: 80.800702 };
     const zoom = 8;
@@ -35,7 +37,7 @@ export default function Home({ sheds }) {
             </Head>
 
             <Wrapper apiKey={"AIzaSyBnPWI3aKEk5Nj-WJhnnDlJcRWmppMVI2E"} render={render} libraries={['visualization']}>
-                <Map center={center} zoom={zoom} sheds={sheds} selectedCategory={selectedCategory} minOil={minOil} />
+                <Map center={center} zoom={zoom} sheds={sheds} selectedCategory={selectedCategory} minOil={minOil} includeYesterday={includeYesterday} />
             </Wrapper>
 
             <div className="fixed -top-14 right-0 w-full max-w-md px-1 py-16">
@@ -63,7 +65,7 @@ export default function Home({ sheds }) {
                         ))}
                     </Tab.List>
                 </Tab.Group>
-                <div className="mt-1 flex items-center cursor-default overflow-hidden text-sm rounded-lg bg-blue-900/20 text-left shadow-md">
+                <div className="mt-1 flex items-center cursor-default overflow-hidden text-sm rounded-lg bg-blue-900/20 text-left">
                     <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
                         Show sheds with at least
                     </span>
@@ -77,11 +79,27 @@ export default function Home({ sheds }) {
                                 }
                             }
                         }}
-                        className="text-blue-700 w-full border-none py-2 pl-3 pr-10 text-sm leading-5 focus:ring-0"
+                        className="text-blue-700 rounded-lg w-full border-none py-2 pl-3 pr-10 text-sm leading-5 focus:ring-0"
                     />
                     <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
                         liters of {categories[selectedCategory]}
                     </span>
+                </div>
+                <div className="mt-1 flex justify-between items-center cursor-default overflow-hidden text-sm rounded-lg bg-blue-900/20 text-left">
+                    <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
+                        Include sheds that didn't update the database today
+                    </span>
+                    <Switch
+                        checked={includeYesterday}
+                        onChange={setIncludeYesterday}
+                        className={`${includeYesterday ? 'bg-blue-700' : 'bg-blue-900'} relative inline-flex h-[24px] w-[48px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                    >
+                        <span className="sr-only">Use setting</span>
+                        <span
+                            aria-hidden="true"
+                            className={`${includeYesterday ? 'translate-x-6' : 'translate-x-0'} pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                        />
+                    </Switch>
                 </div>
             </div>
 
@@ -93,7 +111,7 @@ export async function getServerSideProps() {
     const dev = true
     const server = dev ? 'http://localhost:3000' : 'https://fuel-git-main-nova9.vercel.app'
     // const response = await fetch(`${server}/api/sheds`)
-    const response = await fetch('https://raw.githubusercontent.com/nova9/fuel/main/latest.json?token=GHSAT0AAAAAABSTAFTEEHQH2ZZIABSJAXFUYVMMG6A')
+    const response = await fetch('https://raw.githubusercontent.com/nova9/fuel/main/latest.json')
     const sheds = await response.json()
 
     return { props: { sheds } }
