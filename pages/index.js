@@ -87,7 +87,7 @@ export default function Home({ sheds }) {
                 </div>
                 <div className="mt-1 flex justify-between items-center cursor-default overflow-hidden text-sm rounded-lg bg-blue-900/20 text-left">
                     <span className="shrink-0 text-white text-[10px] mx-2 font-medium">
-                        Include sheds that didn't update the database today
+                        Include sheds that didn&apos;t update the database today
                     </span>
                     <Switch
                         checked={includeYesterday}
